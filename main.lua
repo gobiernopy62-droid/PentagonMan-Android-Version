@@ -57,7 +57,7 @@ local SETTINGS_ITEMS = {
 
 -- Ajustes booleanos que se muestran como ON/OFF (no rebindeables)
 local TOGGLE_ITEMS = {
-    { label = "Mobile Controls:", key = "mobile_mode" },
+    { label = "Mobile Controls:", key = "mobile_mode"  },
 }
 local settingsSelected = 1
 local waitingForKey    = nil   -- nombre del control esperando rebind
@@ -73,10 +73,10 @@ local activeLevelEntry = nil   -- { name, path } del nivel en curso
 
 -- Devuelve (offsetX, offsetY, scale) para centrar el canvas lógico en pantalla
 local function getCanvasTransform()
-    local sw, sh  = love.graphics.getDimensions()
-    local scale   = math.min(sw / LOGI_W, sh / LOGI_H)
-    local ox      = math.floor((sw - LOGI_W * scale) / 2)
-    local oy      = math.floor((sh - LOGI_H * scale) / 2)
+    local sw, sh = love.graphics.getDimensions()
+    local scale  = math.min(sw / LOGI_W, sh / LOGI_H)
+    local ox     = math.floor((sw - LOGI_W * scale) / 2)
+    local oy     = math.floor((sh - LOGI_H * scale) / 2)
     return ox, oy, scale
 end
 
@@ -665,6 +665,13 @@ end
 -- ── Teclado ───────────────────────────────────────────────────────────────────
 
 function love.keypressed(key)
+    -- F11: alternar pantalla completa
+    if key == "f11" then
+        local isFS = love.window.getFullscreen()
+        love.window.setFullscreen(not isFS)
+        return
+    end
+
     -- Rebind de teclado en settings (gamepad se detecta en love.update)
     if state == "settings" and waitingForKey then
         controls[waitingForKey] = { type = "key", value = key }
@@ -821,6 +828,11 @@ function love.mousepressed(px, py, button)
 end
 
 function love.mousemoved(px, py)
+    -- Arrastre sobre botones táctiles (mobile testing)
+    if controls.mobile_mode then
+        mobileControls:onMouseMoved(px, py)
+    end
+
     if state ~= "menu" then return end
     local mx, my = toLogical(px, py)
     local L = getMenuLayout()
@@ -843,6 +855,12 @@ end
 -- ── Touch (Android / SDL2) ────────────────────────────────────────────────────
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
+    -- Si hay un rebind activo, cualquier toque lo cancela (un dedo no es
+    -- un binding válido) y no se reenvía al overlay para evitar el crash.
+    if waitingForKey then
+        waitingForKey = nil
+        return
+    end
     if controls.mobile_mode then
         mobileControls:onTouchPressed(id, x, y)
     end
@@ -863,7 +881,7 @@ end
 -- ── Resize ────────────────────────────────────────────────────────────────────
 
 function love.resize(w, h)
-    -- No necesitamos hacer nada; getCanvasTransform() recalcula en cada frame
+    -- Nada que hacer; getCanvasTransform() recalcula en cada frame.
 end
 
 -- =============================================================================

@@ -332,30 +332,33 @@ function MobileControls:onTouchReleased(id, physX, physY)
 end
 
 --- Llamar desde love.touchmoved(id, x, y, ...).
---- Maneja el deslizamiento de un dedo entre botones.
+--- Maneja el deslizamiento de un dedo entre botones, incluyendo el caso
+--- en que el dedo comenzó en zona vacía y entra en un botón deslizando.
 function MobileControls:onTouchMoved(id, physX, physY)
-    local oldBtn = self.fingerMap[id]
-    if not oldBtn then return end
-
     local lx, ly = self:_toLogical(physX, physY)
+    local oldBtn = self.fingerMap[id]
 
-    -- El dedo sigue dentro del botón original → nada que hacer.
-    if inRect(lx, ly, self.rects[oldBtn]) then return end
+    if oldBtn then
+        -- El dedo ya estaba sobre un botón registrado.
+        -- Si sigue dentro, no hay nada que hacer.
+        if inRect(lx, ly, self.rects[oldBtn]) then return end
 
-    -- Salió del botón original → liberar si nadie más lo sostiene.
-    local stillHeld = false
-    for otherId, otherBtn in pairs(self.fingerMap) do
-        if otherId ~= id and otherBtn == oldBtn then
-            stillHeld = true
-            break
+        -- Salió del botón original → liberar si nadie más lo sostiene.
+        local stillHeld = false
+        for otherId, otherBtn in pairs(self.fingerMap) do
+            if otherId ~= id and otherBtn == oldBtn then
+                stillHeld = true
+                break
+            end
         end
+        if not stillHeld then
+            self.state[oldBtn] = false
+        end
+        self.fingerMap[id] = nil
     end
-    if not stillHeld then
-        self.state[oldBtn] = false
-    end
-    self.fingerMap[id] = nil
 
-    -- ¿Entró en un nuevo botón?
+    -- En ambos casos (venía de botón o de zona vacía): si ahora está
+    -- sobre un botón, registrarlo como presionado.
     local newBtn = self:_hitTest(lx, ly)
     if newBtn then
         self.state[newBtn] = true
@@ -368,7 +371,6 @@ end
 -- =============================================================================
 
 --- Llamar desde love.mousepressed(x, y, button) cuando button == 1.
---- x, y son coordenadas físicas de pantalla.
 function MobileControls:onMousePressed(physX, physY)
     local lx, ly = self:_toLogical(physX, physY)
     local btn    = self:_hitTest(lx, ly)
@@ -383,6 +385,37 @@ function MobileControls:onMouseReleased()
     if self._mouseBtn then
         self.state[self._mouseBtn] = false
         self._mouseBtn = nil
+    end
+end
+
+--- Llamar desde love.mousemoved(x, y, ...) para detectar arrastre entre botones.
+--- Solo actúa cuando el botón izquierdo del mouse está sostenido.
+function MobileControls:onMouseMoved(physX, physY)
+    -- Si no hay botón del mouse sostenido, ignorar.
+    if not love.mouse.isDown(1) then
+        -- Si había un botón registrado y el mouse ya no está pulsado, limpiar.
+        if self._mouseBtn then
+            self.state[self._mouseBtn] = false
+            self._mouseBtn = nil
+        end
+        return
+    end
+
+    local lx, ly = self:_toLogical(physX, physY)
+    local newBtn = self:_hitTest(lx, ly)
+
+    if newBtn == self._mouseBtn then return end  -- mismo botón, nada que hacer
+
+    -- Liberar el botón anterior si había uno.
+    if self._mouseBtn then
+        self.state[self._mouseBtn] = false
+        self._mouseBtn = nil
+    end
+
+    -- Activar el nuevo botón si el cursor entró en uno.
+    if newBtn then
+        self.state[newBtn] = true
+        self._mouseBtn = newBtn
     end
 end
 

@@ -25,29 +25,15 @@ jobs:
       - name: Clonar love-android
         run: git clone https://github.com/love2d/love-android.git --depth 1
 
+      - name: Poner nombre de la app
+        run: |
+          sed -i 's|<string name="app_name">.*</string>|<string name="app_name">PentagonMan</string>|' \
+            love-android/app/src/main/res/values/strings.xml
+
       - name: Fijar orientación landscape
         run: |
           sed -i 's/android:screenOrientation="[^"]*"/android:screenOrientation="sensorLandscape"/' \
             love-android/app/src/main/AndroidManifest.xml
-
-      - name: Empaquetar juego como .love
-        run: |
-          zip -9 -r game.love . \
-            -x "*.git*" \
-            -x ".github/*" \
-            -x "love-android/*" \
-            -x "README*" \
-            -x "*.yml"
-
-      - name: Copiar .love a love-android
-        run: |
-          mkdir -p love-android/app/src/main/assets
-          cp game.love love-android/app/src/main/assets/game.love
-
-      - name: Poner nombre de la app
-        run: |
-          mkdir -p love-android/app/src/main/res/values
-          echo '<?xml version="1.0" encoding="utf-8"?><resources><string name="app_name">PentagonMan</string></resources>' > love-android/app/src/main/res/values/strings.xml
 
       - name: Copiar icono a todos los tamaños mipmap
         run: |
@@ -65,12 +51,23 @@ jobs:
             convert icon.png -resize "${size}x${size}" "${dest}/ic_launcher.png"
           done
 
+      - name: Empaquetar juego como .love
+        run: |
+          zip -9 -r game.love . \
+            -x "*.git*" \
+            -x ".github/*" \
+            -x "love-android/*" \
+            -x "README*" \
+            -x "*.yml"
+
+      - name: Copiar .love a love-android
+        run: cp game.love love-android/app/src/main/assets/game.love
+
       - name: Compilar APK debug
         run: |
           cd love-android
           chmod +x gradlew
-          # Agregamos parámetros de compatibilidad para evitar el error de CMake
-          ./gradlew assembleDebug -Pandroid.extractNativeLibs=false
+          ./gradlew assembleDebug
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
