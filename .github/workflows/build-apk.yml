@@ -13,9 +13,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Instalar herramientas
+      - name: Instalar ImageMagick
+        run: sudo apt-get install -y imagemagick
+
+      - name: Instalar apktool actualizado
         run: |
-          sudo apt-get install -y imagemagick apktool
+          wget -q https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar \
+            -O /tmp/apktool.jar
+          wget -q https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool \
+            -O /tmp/apktool
+          chmod +x /tmp/apktool
+          sudo cp /tmp/apktool /usr/local/bin/apktool
+          sudo cp /tmp/apktool.jar /usr/local/bin/apktool.jar
 
       - name: Descargar LÖVE APK oficial pre-compilado
         run: |
