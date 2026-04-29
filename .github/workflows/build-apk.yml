@@ -41,15 +41,12 @@ jobs:
 
       - name: Copiar .love a love-android
         run: |
-          # Creamos la carpeta assets por si no existe
           mkdir -p love-android/app/src/main/assets
           cp game.love love-android/app/src/main/assets/game.love
 
       - name: Poner nombre de la app
         run: |
-          # Aseguramos que el directorio de valores exista
           mkdir -p love-android/app/src/main/res/values
-          # Creamos un strings.xml básico con el nombre de tu app
           echo '<?xml version="1.0" encoding="utf-8"?><resources><string name="app_name">PentagonMan</string></resources>' > love-android/app/src/main/res/values/strings.xml
 
       - name: Copiar icono a todos los tamaños mipmap
@@ -72,7 +69,8 @@ jobs:
         run: |
           cd love-android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          # Agregamos parámetros de compatibilidad para evitar el error de CMake
+          ./gradlew assembleDebug -Pandroid.extractNativeLibs=false
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
