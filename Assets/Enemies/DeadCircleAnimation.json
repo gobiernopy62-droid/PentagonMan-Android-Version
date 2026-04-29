@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "DeadCircle1.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 473,
+        "h": 500
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 473,
+        "h": 500
+      },
+      "sourceSize": {
+        "w": 473,
+        "h": 500
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "DeadCircle2.png": {
+      "frame": {
+        "x": 473,
+        "y": 0,
+        "w": 473,
+        "h": 500
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 473,
+        "h": 500
+      },
+      "sourceSize": {
+        "w": 473,
+        "h": 500
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "DeadCircleAnimation.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 512
+    },
+    "scale": 1
+  }
+}

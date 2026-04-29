@@ -1,0 +1,79 @@
+name: Build APK - PentagonMan
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Instalar ImageMagick
+        run: sudo apt-get install -y imagemagick
+
+      - name: Clonar love-android
+        run: git clone https://github.com/love2d/love-android.git --depth 1
+
+      # --- NUEVO PASO AGREGADO AQUÍ ---
+      - name: Fijar orientación landscape
+        run: |
+          sed -i 's/android:screenOrientation="[^"]*"/android:screenOrientation="sensorLandscape"/' \
+            love-android/app/src/main/AndroidManifest.xml
+      # ---------------------------------
+
+      - name: Empaquetar juego como .love
+        run: |
+          zip -9 -r game.love . \
+            -x "*.git*" \
+            -x ".github/*" \
+            -x "love-android/*" \
+            -x "README*" \
+            -x "*.yml"
+
+      - name: Copiar .love a love-android
+        run: cp game.love love-android/app/src/main/assets/game.love
+
+      - name: Poner nombre de la app
+        run: |
+          sed -i 's|<string name="app_name">.*</string>|<string name="app_name">PentagonMan</string>|' \
+            love-android/app/src/main/res/values/strings.xml
+
+      - name: Copiar icono a todos los tamaños mipmap
+        run: |
+          declare -A SIZES=(
+            ["mipmap-mdpi"]=48
+            ["mipmap-hdpi"]=72
+            ["mipmap-xhdpi"]=96
+            ["mipmap-xxhdpi"]=144
+            ["mipmap-xxxhdpi"]=192
+          )
+          for dir in "${!SIZES[@]}"; do
+            size="${SIZES[$dir]}"
+            dest="love-android/app/src/main/res/${dir}"
+            mkdir -p "$dest"
+            convert icon.png -resize "${size}x${size}" "${dest}/ic_launcher.png"
+          done
+
+      - name: Compilar APK debug
+        run: |
+          cd love-android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Subir APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PentagonMan-debug
+          path: love-android/app/build/outputs/apk/debug/*.apk
+          retention-days: 14

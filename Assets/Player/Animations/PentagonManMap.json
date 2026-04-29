@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "PentagonChibiBeyondIdle.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiBeyondWalkingAnimation1.png": {
+      "frame": {
+        "x": 0,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiBeyondWalkingAnimation2.png": {
+      "frame": {
+        "x": 0,
+        "y": 58,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiBeyondWalkingAnimation3.png": {
+      "frame": {
+        "x": 0,
+        "y": 87,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiBeyondWalkingAnimation4.png": {
+      "frame": {
+        "x": 19,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiFrontIdle.png": {
+      "frame": {
+        "x": 19,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiFrontWalkingAnimation1.png": {
+      "frame": {
+        "x": 19,
+        "y": 58,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiFrontWalkingAnimation2.png": {
+      "frame": {
+        "x": 19,
+        "y": 87,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiFrontWalkingAnimation3.png": {
+      "frame": {
+        "x": 38,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiFrontWalkingAnimation4.png": {
+      "frame": {
+        "x": 57,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiLeftIdle.png": {
+      "frame": {
+        "x": 76,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiLeftWalkingAnimationt1.png": {
+      "frame": {
+        "x": 95,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiLeftWalkingAnimationt2.png": {
+      "frame": {
+        "x": 38,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiLeftWalkingAnimationt3.png": {
+      "frame": {
+        "x": 38,
+        "y": 58,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiLeftWalkingAnimationt4.png": {
+      "frame": {
+        "x": 38,
+        "y": 87,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiRightIdle.png": {
+      "frame": {
+        "x": 57,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiRightWalkingAnimationt1.png": {
+      "frame": {
+        "x": 76,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiRightWalkingAnimationt2.png": {
+      "frame": {
+        "x": 95,
+        "y": 29,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiRightWalkingAnimationt3.png": {
+      "frame": {
+        "x": 57,
+        "y": 58,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "PentagonChibiRightWalkingAnimationt4.png": {
+      "frame": {
+        "x": 57,
+        "y": 87,
+        "w": 19,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 19,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "PentagonManMap.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 128,
+      "h": 128
+    },
+    "scale": 1
+  }
+}
