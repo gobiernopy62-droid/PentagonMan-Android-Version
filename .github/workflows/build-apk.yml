@@ -13,33 +13,42 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Instalar ImageMagick
-        run: sudo apt-get install -y imagemagick
-
-      - name: Clonar love-android
+      - name: Instalar herramientas
         run: |
-          git clone https://github.com/love2d/love-android.git --depth 1 --recurse-submodules --shallow-submodules
+          sudo apt-get install -y imagemagick apktool
+
+      - name: Descargar LÖVE APK oficial pre-compilado
+        run: |
+          wget -q https://github.com/love2d/love/releases/download/11.5/love-11.5-android.apk \
+            -O love.apk
+
+      - name: Descompilar APK con apktool
+        run: apktool d love.apk -o love_decompiled --no-src -f
+
+      - name: Empaquetar juego como .love
+        run: |
+          zip -9 -r game.love . \
+            -x "*.git*" \
+            -x ".github/*" \
+            -x "love_decompiled/*" \
+            -x "love.apk" \
+            -x "README*" \
+            -x "*.yml"
+
+      - name: Inyectar .love en el APK
+        run: |
+          mkdir -p love_decompiled/assets
+          cp game.love love_decompiled/assets/game.love
 
       - name: Poner nombre de la app
         run: |
-          mkdir -p love-android/app/src/main/res/values
-          cat > love-android/app/src/main/res/values/strings.xml << 'EOF'
-          <?xml version="1.0" encoding="utf-8"?>
-          <resources>
-              <string name="app_name">PentagonMan</string>
-          </resources>
-          EOF
+          sed -i 's|<string name="app_name">.*</string>|<string name="app_name">PentagonMan</string>|' \
+            love_decompiled/res/values/strings.xml
 
       - name: Fijar orientación landscape
         run: |
           sed -i 's/android:screenOrientation="[^"]*"/android:screenOrientation="sensorLandscape"/' \
-            love-android/app/src/main/AndroidManifest.xml
+            love_decompiled/AndroidManifest.xml
 
       - name: Copiar icono a todos los tamaños mipmap
         run: |
@@ -52,34 +61,34 @@ jobs:
           )
           for dir in "${!SIZES[@]}"; do
             size="${SIZES[$dir]}"
-            dest="love-android/app/src/main/res/${dir}"
+            dest="love_decompiled/res/${dir}"
             mkdir -p "$dest"
             convert icon.png -resize "${size}x${size}" "${dest}/ic_launcher.png"
           done
 
-      - name: Empaquetar juego como .love
-        run: |
-          zip -9 -r game.love . \
-            -x "*.git*" \
-            -x ".github/*" \
-            -x "love-android/*" \
-            -x "README*" \
-            -x "*.yml"
+      - name: Recompilar APK con apktool
+        run: apktool b love_decompiled -o pentagonman_unsigned.apk
 
-      - name: Copiar .love a love-android
+      - name: Firmar APK con debug keystore
         run: |
-          mkdir -p love-android/app/src/main/assets
-          cp game.love love-android/app/src/main/assets/game.love
-
-      - name: Compilar APK debug
-        run: |
-          cd love-android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          keytool -genkey -v \
+            -keystore debug.keystore \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 \
+            -validity 10000 \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+          jarsigner -verbose \
+            -keystore debug.keystore \
+            -storepass android \
+            -keypass android \
+            -signedjar pentagonman.apk \
+            pentagonman_unsigned.apk androiddebugkey
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
         with:
           name: PentagonMan-debug
-          path: love-android/app/build/outputs/apk/debug/*.apk
+          path: pentagonman.apk
           retention-days: 14
