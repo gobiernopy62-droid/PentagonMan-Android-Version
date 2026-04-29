@@ -23,12 +23,18 @@ jobs:
         run: sudo apt-get install -y imagemagick
 
       - name: Clonar love-android
-        run: git clone https://github.com/love2d/love-android.git --depth 1
+        run: |
+          git clone https://github.com/love2d/love-android.git --depth 1 --recurse-submodules --shallow-submodules
 
       - name: Poner nombre de la app
         run: |
-          sed -i 's|<string name="app_name">.*</string>|<string name="app_name">PentagonMan</string>|' \
-            love-android/app/src/main/res/values/strings.xml
+          mkdir -p love-android/app/src/main/res/values
+          cat > love-android/app/src/main/res/values/strings.xml << 'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <string name="app_name">PentagonMan</string>
+          </resources>
+          EOF
 
       - name: Fijar orientación landscape
         run: |
