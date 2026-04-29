@@ -67,7 +67,9 @@ jobs:
             -x "*.yml"
 
       - name: Copiar .love a love-android
-        run: cp game.love love-android/app/src/main/assets/game.love
+        run: |
+          mkdir -p love-android/app/src/main/assets
+          cp game.love love-android/app/src/main/assets/game.love
 
       - name: Compilar APK debug
         run: |
