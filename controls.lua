@@ -106,8 +106,8 @@ local DEFAULT_CONTROLS = {
     show_fps          = false,
     fps_limit         = 60,
 
-    -- ── Controles táctiles (desactivados por defecto) ─────────────────────────
-    mobile_mode = false,
+    -- ── Controles táctiles (ACTIVADOS por defecto) ─────────────────────────
+    mobile_mode = true,
 }
 
 -- =============================================================================
