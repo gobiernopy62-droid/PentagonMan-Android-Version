@@ -25,12 +25,10 @@ jobs:
       - name: Clonar love-android
         run: git clone https://github.com/love2d/love-android.git --depth 1
 
-      # --- NUEVO PASO AGREGADO AQUÍ ---
       - name: Fijar orientación landscape
         run: |
           sed -i 's/android:screenOrientation="[^"]*"/android:screenOrientation="sensorLandscape"/' \
             love-android/app/src/main/AndroidManifest.xml
-      # ---------------------------------
 
       - name: Empaquetar juego como .love
         run: |
@@ -42,7 +40,10 @@ jobs:
             -x "*.yml"
 
       - name: Copiar .love a love-android
-        run: cp game.love love-android/app/src/main/assets/game.love
+        run: |
+          # --- ESTO ES LO QUE ARREGLA EL ERROR ---
+          mkdir -p love-android/app/src/main/assets
+          cp game.love love-android/app/src/main/assets/game.love
 
       - name: Poner nombre de la app
         run: |
