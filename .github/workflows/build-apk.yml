@@ -13,8 +13,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Instalar ImageMagick
-        run: sudo apt-get install -y imagemagick
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get install -y imagemagick zipalign apksigner
 
       - name: Instalar apktool actualizado
         run: |
@@ -48,6 +49,8 @@ jobs:
         run: |
           mkdir -p love_decompiled/assets
           cp game.love love_decompiled/assets/game.love
+          # Verificar que se copió correctamente
+          ls -lh love_decompiled/assets/
 
       - name: Poner nombre de la app
         run: |
@@ -76,9 +79,12 @@ jobs:
           done
 
       - name: Recompilar APK con apktool
-        run: apktool b love_decompiled -o pentagonman_unsigned.apk
+        run: apktool b love_decompiled -o pentagonman_unaligned.apk --use-aapt2
 
-      - name: Firmar APK con debug keystore
+      - name: Zipalign
+        run: zipalign -v 4 pentagonman_unaligned.apk pentagonman_unsigned.apk
+
+      - name: Generar keystore de debug
         run: |
           keytool -genkey -v \
             -keystore debug.keystore \
@@ -88,12 +94,18 @@ jobs:
             -storepass android \
             -keypass android \
             -dname "CN=Android Debug,O=Android,C=US"
-          jarsigner -verbose \
-            -keystore debug.keystore \
-            -storepass android \
-            -keypass android \
-            -signedjar pentagonman.apk \
-            pentagonman_unsigned.apk androiddebugkey
+
+      - name: Firmar APK con apksigner (v1+v2+v3)
+        run: |
+          apksigner sign \
+            --ks debug.keystore \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            --ks-key-alias androiddebugkey \
+            --out pentagonman.apk \
+            pentagonman_unsigned.apk
+          apksigner verify pentagonman.apk
+          echo "✅ APK firmado y verificado correctamente"
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
